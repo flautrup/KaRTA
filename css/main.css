@@ -1,0 +1,74 @@
+#sidebar {
+float: left;
+width: 17%;
+overflow: hidden;
+margin: 5px;
+height: 200;
+}
+
+#graphs  {
+float: left;
+width: 80%;
+overflow: hidden;
+margin: 5px;
+height: 200;
+}
+
+
+#map {
+	clear: both;
+	width: 800px;
+	height: 800px;
+}
+
+#mapcontainer {
+	clear: both;
+}
+#footer {
+	clear: both;
+}
+
+#header {
+	clear: both;
+}
+body {
+	font: 62.5% "Trebuchet MS", sans-serif;
+	margin: 50px;
+}
+
+.demoHeaders {
+	margin-top: 2em;
+}
+
+#dialog_link {
+	padding: .4em 1em .4em 20px;
+	text-decoration: none;
+	position: relative;
+}
+
+#dialog_link span.ui-icon {
+	margin: 0 5px 0 0;
+	position: absolute;
+	left: .2em;
+	top: 50%;
+	margin-top: -8px;
+}
+
+ul#icons {
+	margin: 0;
+	padding: 0;
+}
+
+ul#icons li {
+	margin: 2px;
+	position: relative;
+	padding: 4px 0;
+	cursor: pointer;
+	float: left;
+	list-style: none;
+}
+
+ul#icons span.ui-icon {
+	float: left;
+	margin: 0 4px;
+}
