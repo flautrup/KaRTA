@@ -62,7 +62,7 @@ function UI(){
 
 function presentInformation(info) {
 	
-	infostr=new String();
+	var infostr;
 	
 	infostr="<table><tr><td>Format:</td><td>"+info.format+"</td></tr>";
 	infostr=infostr+"<tr><td>Venue:</td><td>"+info.venue+"</td></tr>";
@@ -88,7 +88,7 @@ function presentInformation(info) {
 
 function presentLaps(laps) {
 	
-	infostr= new String();
+	var infostr;
 	
 	infostr="<table><tr><td></td><td>Laps</td><td>Time</td></tr>";
 	for(var count=0;count<laps.length; count++) {
