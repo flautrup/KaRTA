@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>jQuery UI Example Page</title>
+<link type="text/css" href="css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+<link type="text/css" href="css/main.css" rel="stylesheet" />
+<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/highcharts.js"></script>
+
+</head>
+<body>
+	<div id="filecontent"></div>
+	<div id="dialogAlert"></div>
+	<div id="header">
+		<h1>Kart Racing Telemetry Analyser</h1>
+	</div>
+	<div id="sidebar">
+		<!-- Accordion -->
+		<div id="sidebaraccordion">
+			<div>
+				<h3>
+					<a href="#">Information</a>
+				</h3>
+				<div id="information"></div>
+			</div>
+			<div>
+				<h3>
+					<a href="#">Details</a>
+				</h3>
+				<div id="details"></div>
+			</div>
+			<div>
+				<h3>
+					<a href="#">Laps</a>
+				</h3>
+				<div id="laps"></div>
+			</div>
+		</div>
+	</div>
+	<div id="graphs">
+		<!-- Tabs -->
+		<div id="tabs">
+			<ul>
+				<li><a href="#tabs-1">Load </a></li>
+				<li><a href="#tabs-2">Analyse</a></li>
+				<li><a href="#tabs-3">About</a></li>
+			</ul>
+			<div id="tabs-1">
+				<input type="file" id="telemetryfile" name="files[]" />
+				<button onclick="abortRead();">Cancel read</button>
+				<div id="progress_bar">
+					<div class="percent">0%</div>
+				</div>
+			</div>
+			<div id="tabs-2">
+				<!-- Slider -->
+				
+				<!-- Accordion -->
+				<div id="accordion">
+					<div>
+						<h3>
+							<a href="#">Speed</a>
+						</h3>
+						<div id="speedgraph"></div>
+					</div>
+					<div>
+						<h3>
+							<a href="#">Acceleration</a>
+						</h3>
+						<div id="accelgraph"></div>
+					</div>
+					<div>
+						<h3>
+							<a href="#">Steer</a>
+						</h3>
+						<div id="steergraph"></div>
+					</div>
+					<div>
+						<h3>
+							<a href="#">Throttle</a>
+						</h3>
+						<div id="throttlegraph"></div>
+					</div>
+					<div>
+						<h3>
+							<a href="#">Break</a>
+						</h3>
+						<div id="brakegraph"></div>
+					</div>
+					<div>
+						<h3>
+							<a href="#">Compare</a>
+						</h3>
+						<div id="comparegraph"></div>
+					</div>
+				</div>
+			</div>
+			<div id="tabs-3">Kart Racing Pro Telemetry analyser</div>
+
+		</div>
+	</div>
+	<div id="mapcontainer">
+		<H1>MAP</H1>
+		<div id="map"></div>
+	</div>
+	<div id="footer">
+		<!-- Progressbar -->
+		<h2 class="demoHeaders">Progressbar</h2>
+		<div id="progressbar"></div>
+	</div>
+
+	<script type="text/javascript">
+		$(UI());
+		document.getElementById('telemetryfile').addEventListener('change',	handleFileSelect, false);
+	</script>
+</body>
+</html>
+
+
