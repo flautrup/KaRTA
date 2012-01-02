@@ -20,12 +20,15 @@ function information() {
 function UI(){
 
 	// Accordion
-	$("#accordion").accordion({autoHeight: false, header: "h3" });
-
+	$("#accordion").accordion({autoHeight: false, header: "h3"});
+   
+   
+  
 	$("#sidebaraccordion").accordion({autoHeight: false, header: "h3" });
 
 	// Tabs
-	$('#tabs').tabs();
+	$('#tabs').tabs().resizable();
+    
 
 
 	// Dialog			
@@ -43,12 +46,6 @@ function UI(){
 	});
 
 
-
-	// Datepicker
-	$('#datepicker').datepicker({
-		inline: true
-	});
-
 	// Slider
 	$('#slider').slider({
 		range: true,
@@ -57,6 +54,7 @@ function UI(){
 	
 	$('#dialogAlert').dialog ('close');
 			
+    $('#progressbar').progressbar();        
 	
 }
 
@@ -100,32 +98,6 @@ function presentLaps(laps) {
 	
 }
 
-/*function handleFileSelect(evt) {
-    var files = evt.target.files; // FileList object
-
-    // files is a FileList of File objects. List some properties.
-    var output = [];
-    f = files[0];
-      output.push('<li><strong>', f.name, '</strong> (', f.type || 'n/a', ') - ',
-                  f.size, ' bytes, last modified: ',
-                  f.lastModifiedDate.toLocaleDateString(), '</li>');
-
-      document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-
-      var reader = new FileReader();
-
-      // Closure to capture the file information.
-      reader.onload = (function(theFile) {
-        return function(e) {
-        	//Return JSON of CVS
-        };
-      })(f);
-
-      // Read in the telemetry file as a text.
-      reader.readAsText(f);
-    //}
-        window.filecontent=reader.result;
-  } */
 
 //HighGraph
 function map(container, teldatastr, laps) {
@@ -136,13 +108,48 @@ function map(container, teldatastr, laps) {
 			chart: {
 				renderTo: container, 
 				defaultSeriesType: 'scatter',
-				zoomType: 'xy'
+				zoomType: 'xy',
+                spacingTop: 20,
+                spacingBottom: 20,
+                spacingRight: 20,
+                spacingLeft: 20,
+                width: 600,
+	            height: 600
 			},
+            title: {
+              text: ''  
+            },
 			xAxis: {
+                labels: {
+                  enabled: true  
+                },
+                title: {
+                    enabled: null,
+                    text: null
+                },
 				startOnTick: true,
 				endOnTick: true,
-				showLastLabel: true
+				showLastLabel: true,
+                maxPadding: 0.0,
+                minPadding: 0.0,
+                tickInterval: 10,
+                gridLineWidth: 1
 			},
+            yAxis: {
+                labels: {
+                    enabled: true
+                },
+                title: {
+                    enabled: null,
+                    text: null
+                },
+                startOnTick: true,
+				endOnTick: true,
+				showLastLabel: true,
+                maxPadding: 0.0,
+                minPadding: 0.0,
+                tickInterval: 10
+            },
 			tooltip: {
 				formatter: function() {
 					return ''+
@@ -211,6 +218,13 @@ function analysisGraph(container,attr,teldatastr, laps) {
 				renderTo: container,
 				zoomType: 'x',
 				defaultSeriesType: 'line',
+                reflow: true,
+                spacingTop: 20,
+                spacingBottom: 20,
+                spacingRight: 20,
+                spacingLeft: 20,
+                width: 1180,
+                height: 280
 			},
 			title: {
 				text: attr,
@@ -225,8 +239,10 @@ function analysisGraph(container,attr,teldatastr, laps) {
 			},
 			yAxis: {
 				title: {
-					text: 'Speed'
+					text: attr
 				},
+                maxPadding: 0.0,
+                minPadding: 0.0,
 				plotLines: [{
 					value: 0,
 					width: 1,
@@ -253,8 +269,6 @@ function analysisGraph(container,attr,teldatastr, laps) {
 				layout: 'vertical',
 				align: 'right',
 				verticalAlign: 'top',
-				x: -10,
-				y: 100,
 				borderWidth: 0
 			},
 			series: []
@@ -298,33 +312,9 @@ function analysisGraph(container,attr,teldatastr, laps) {
 		};
 	}
 	chart=new Highcharts.Chart(options);
+    
+    return chart;
 }
-//Raphael
-/*function DrawGraph () {
-	
-	//Speed graph
-	var speedgraph=Raphael("speedgraph");
-	var lines = speedgraph.linechart(30, 50,300,200, [[1, 2, 3, 4, 5, 6, 7],[3.5, 4.5, 5.5, 6.5, 7, 8]], [[12, 32, 23, 15, 17, 27, 22], [10, 20, 30, 25, 15, 28]], { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true });
-
-    //Acceleration             
-    var accelgraph=Raphael("accelgraph");
- 	var lines = accelgraph.linechart(30, 50,300,200, [[1, 2, 3, 4, 5, 6, 7],[3.5, 4.5, 5.5, 6.5, 7, 8]], [[12, 32, 23, 15, 17, 27, 22], [10, 20, 30, 25, 15, 28]], { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true });
-         
-    //Compare           
-    var comparegraph=Raphael("comparegraph");
- 	var lines = comparegraph.linechart(30, 50,300,200, [[1, 2, 3, 4, 5, 6, 7],[3.5, 4.5, 5.5, 6.5, 7, 8]], [[12, 32, 23, 15, 17, 27, 22], [10, 20, 30, 25, 15, 28]], { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true });
-     
- 	//Map
- 	var map=Raphael("map",1024,500);
- 	
- 	var backrect=map.rect(0,0,1024,400,10);
- 	backrect.attr("fill","#C0C0");
- 	backrect.attr("stroke","#000000");
- 	
-	document.getElementById('telemetryfile').addEventListener('change', handleFileSelect, false);
-     
-};*/
-
 
 //File load
 
@@ -397,11 +387,12 @@ function handleFileSelect(evt) {
 		presentInformation(info);
 		presentLaps(laps);
 		//speedGraph(data,laps);
-		analysisGraph('speedgraph','Speed',data,laps);
-		analysisGraph('accelgraph','LonAcc',data,laps);
-		analysisGraph('throttlegraph','Throttle',data,laps);
-		analysisGraph('steergraph','Steer',data,laps);
-		analysisGraph('brakegraph','Brake',data,laps);
+        var speedgraph=analysisGraph('speedgraph','Speed',data,laps);
+        var accelgraph=analysisGraph('accelgraph','LonAcc',data,laps);
+        var steergraph=analysisGraph('steergraph','Steer',data,laps);           
+        var throttlegraph=analysisGraph('throttlegraph','Throttle',data,laps);
+        var breakgraph=analysisGraph('brakegraph','Brake',data,laps);
+		
 		map('map',data,laps);
 	};
 

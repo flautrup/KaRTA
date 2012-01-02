@@ -1,28 +1,53 @@
+body {
+background-color: #D8D8D8;
+}
+
+.ui-tabs .ui-tabs-hide {
+    position: absolute;
+    left: -10000px;
+}
+
+#background {
+    background-color: #FFFFFF;  
+    border-radius: 15px;
+    box-shadow: 3px 3px 10px #606060;
+    padding: 10px 10px 10px 10px;
+}
+
 #sidebar {
-float: left;
-width: 17%;
-overflow: hidden;
-margin: 5px;
-height: 200;
+    float: right;
+    width: 17%;
+    overflow: hidden;
+    margin: 5px;
+    height: 200;
 }
 
 #graphs  {
-float: left;
-width: 80%;
-overflow: hidden;
-margin: 5px;
-height: 200;
+    float: left;
+    width: 1250px;
+    overflow: hidden;
+    padding: 5px;
 }
 
+#speedgraph, #breakgraph, #accelgraph, #throttlegraph, #steergraph {
+    padding: 10px;
+}
 
 #map {
 	clear: both;
-	width: 800px;
-	height: 800px;
+    margin-left: auto;
+    margin-right: auto;
+	width: 600px;
+	height: 600px;
+    padding: 5px;
+    background-color: #B3E2FC;
+    border-radius: 8px;
 }
 
 #mapcontainer {
 	clear: both;
+ //   background-color: #B3E2FC;
+    border-radius: 8px;
 }
 #footer {
 	clear: both;
