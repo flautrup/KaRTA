@@ -162,7 +162,7 @@ function map(container, teldatastr, laps) {
 					marker: {
 						radius: 2,
 						symbol: 'circle'
-					},
+					}
 				}
 			},
 			series: []
@@ -180,7 +180,7 @@ function map(container, teldatastr, laps) {
 	for(var lapcount=0; lapcount<laps.length; lapcount++) {
 		series.name = 'Lap'+lapcount;
 		for(var count=laps[lapcount].start;count<laps[lapcount].stop; count++) {
-			if (gear==parseInt(teldata[count].Gear) || parseInt(teldata[count].Gear)==0) {
+			if (gear==parseInt(teldata[count].Gear,10) || parseInt(teldata[count].Gear,10)===0) {
 				var point=[parseFloat(teldata[count].PosX),parseFloat(teldata[count].PosY)];
 				series.data.push(point);
 			} else {
@@ -190,12 +190,12 @@ function map(container, teldatastr, laps) {
 							enabled: true,
 							symbol: 'circle', 
 							radius: 3,
-							fillColor: gearcolor[parseInt(teldata[count].Gear)] 
+							fillColor: gearcolor[parseInt(teldata[count].Gear,10)] 
 						},
 						x: parseFloat(teldata[count].PosX),
 						y: parseFloat(teldata[count].PosY)
 				};
-				gear=parseInt(teldata[count].Gear);
+				gear=parseInt(teldata[count].Gear,10);
 				series.data.push(point);
 			}
 		}
@@ -206,6 +206,8 @@ function map(container, teldatastr, laps) {
 		};
 	}
 	chart=new Highcharts.Chart(options);
+    
+    return chart;
 }
 
 
@@ -280,13 +282,13 @@ function analysisGraph(container,attr,teldatastr, laps) {
 
 	var gearcolor=['#000000','#0000FF','#000080','#00FF00','#FFFF00','#FF0000','#800080'];
 	
-	teldata=JSON.parse(teldatastr);
+	var teldata=JSON.parse(teldatastr);
 	var gear=0;
 
 	for(var lapcount=0; lapcount<laps.length; lapcount++) {
 		series.name = 'Lap'+lapcount;
 		for(var count=laps[lapcount].start;count<laps[lapcount].stop; count++) {
-			if (gear==parseInt(teldata[count].Gear) || parseInt(teldata[count].Gear)==0) {
+			if (gear==parseInt(teldata[count].Gear,10) || parseInt(teldata[count].Gear,10)===0) {
 				var point=[parseFloat(teldata[count].Distance),parseFloat(teldata[count][attr])];
 				series.data.push(point);
 			} else {
@@ -301,7 +303,7 @@ function analysisGraph(container,attr,teldatastr, laps) {
 						x: parseFloat(teldata[count].Distance),
 						y: parseFloat(teldata[count][attr])
 				};
-				gear=parseInt(teldata[count].Gear);
+				gear=parseInt(teldata[count].Gear,10);
 				series.data.push(point);
 			}
 		}
@@ -337,7 +339,7 @@ function errorHandler(evt) {
 		break;
 	default:
 		alert('An error occurred reading this file.');
-	};
+	}
 }
 
 function updateProgress(evt) {
@@ -393,7 +395,7 @@ function handleFileSelect(evt) {
         var throttlegraph=analysisGraph('throttlegraph','Throttle',data,laps);
         var breakgraph=analysisGraph('brakegraph','Brake',data,laps);
 		
-		map('map',data,laps);
+		trackmap=map('map',data,laps);
 	};
 
 	// Read in the image file as a binary string.
@@ -433,7 +435,7 @@ function parseUnits(content){
 	
 	for (var count=0;count < tmpunits.length; count++) {
 		units.push(tmpunits[count]);
-	};
+	}
 	
 	return units;
 	
@@ -464,19 +466,13 @@ function parseLap(datastring) {
 		}
 	}
 	
-/* 	lapdata.start=start;
-	lapdata.stop=count;
-	lapdata.lap=lapcount;
-	lapdata.laptime=parseFloat(dataobj[count].Time)-parseFloat(dataobj[start].Time);
-	laps[lapcount]=lapdata; */ 
-	
 	return laps;
 	
 }
 
 function parseDataFile(content) {
 	
-	var data = new Array;
+	var data = new Array();
 	
 	var rows=content.replace(/\"/g,"").split("\r\n");	
 		
@@ -486,12 +482,12 @@ function parseDataFile(content) {
 		
 	for (var count=0;count < headings1.length; count++) {
 		headings.push(headings1[count]);
-	};
+	}
 	
 
 for (var count=16;count < rows.length; count++) {
-		var dataobj= new Object;
-		datarow=rows[count].split(",");
+		var dataobj= new Object();
+		var datarow=rows[count].split(",");
 		for (var count2=0; count2<headings.length; count2++) {
 			dataobj[headings[count2]]=datarow[count2];
 		}
