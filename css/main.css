@@ -7,6 +7,18 @@ background-color: #D8D8D8;
     left: -10000px;
 }
 
+.infoheader {
+    font-weight: bold; 
+}
+
+.infostyle {
+    font-size: 1.5em;
+}
+
+.detailsstyle {
+    font-size: 0.8em;
+}
+
 #background {
     background-color: #FFFFFF;  
     border-radius: 15px;
@@ -14,17 +26,61 @@ background-color: #D8D8D8;
     padding: 10px 10px 10px 10px;
 }
 
-#sidebar {
-    float: right;
-    width: 17%;
-    overflow: hidden;
-    margin: 5px;
-    height: 200;
+#logo {
+    float: left;
 }
 
-#graphs  {
+#tabs {
     float: left;
-    width: 1250px;
+    width: 60%;
+}
+
+
+#information {
+    float: right;
+    width: 85%;
+    height: 20px;
+    overflow: hidden;
+    padding: 5px;
+    //background-color: #FF7101;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    font-family: Helvetica,Verdana,Arial;
+    font-size: 1.4em;
+    border: 1px solid #000000;
+    background: #000000 url(custom-theme/images/ui-bg_gloss-wave_100_000000_500x100.png) 50% 50% repeat-x;
+    color: #ffffff;
+}
+
+#informationholder {
+    float: right;
+    width: 85%;
+    height: 130px;
+    overflow: hidden;
+    padding: 5px;
+    background-color: #B3E2FC;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #000000;
+}
+
+#informationcontent {
+    float: left;
+    width: 50%;
+    font-family: Helvetica,Verdana,Arial;
+    font-size: 1.2em;    
+}
+
+#detailscontent {
+    float: right;
+    width: 50%;
+    font-family: Helvetica,Verdana,Arial;
+    font-size: 1.2em;
+}
+
+#content  {
+    width: 100%;
     overflow: hidden;
     padding: 5px;
 }
@@ -34,9 +90,6 @@ background-color: #D8D8D8;
 }
 
 #map {
-	clear: both;
-    margin-left: auto;
-    margin-right: auto;
 	width: 600px;
 	height: 600px;
     padding: 5px;
@@ -45,7 +98,7 @@ background-color: #D8D8D8;
 }
 
 #mapcontainer {
-	clear: both;
+    float: right;
  //   background-color: #B3E2FC;
     border-radius: 8px;
 }

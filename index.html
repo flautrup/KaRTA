@@ -16,40 +16,25 @@
 	<div id="filecontent"></div>
 	<div id="dialogAlert"></div>
 	<div id="header">
-		<h1>Kart Racing Telemetry Analyser</h1>
+	        <div id="logo"><img src="image\kartalogo.png" height=150/></div>
+			<div id="information">
+                Information
+            </div>
+            <div id="informationholder">
+			    <div id="informationcontent"></div>
+                <div id="detailscontent"></div>
+            </div>
 	</div>
     <div id="footer">
 		<div id="progressbar"></div>
 	</div>
-	<div id="sidebar">
-		<!-- Accordion -->
-		<div id="sidebaraccordion">
-			<div>
-				<h3>
-					<a href="#">Information</a>
-				</h3>
-				<div id="information"></div>
-			</div>
-			<div>
-				<h3>
-					<a href="#">Details</a>
-				</h3>
-				<div id="details"></div>
-			</div>
-			<div>
-				<h3>
-					<a href="#">Laps</a>
-				</h3>
-				<div id="laps"></div>
-			</div>
-		</div>
-	</div>
-	<div id="graphs">
+	<div id="content">
 		<!-- Tabs -->
 		<div id="tabs">
 			<ul>
 				<li><a href="#tabs-1">Load </a></li>
 				<li><a href="#tabs-2">Analyse</a></li>
+                <li><a href="#laps">Laps</a></li>
 				<li><a href="#tabs-3">About</a></li>
 			</ul>
 			<div id="tabs-1">
@@ -60,8 +45,6 @@
 				</div>
 			</div>
 			<div id="tabs-2">
-				<!-- Slider -->
-				
 				<!-- Accordion -->
 				<div id="accordion">
 					<div>
@@ -84,7 +67,7 @@
 					</div>
 					<div>
 						<h3>
-							<a href="#">Throttle</a>
+    						<a href="#">Throttle</a>
 						</h3>
 						<div id="throttlegraph"></div>
 					</div>
@@ -102,13 +85,15 @@
 					</div>
 				</div>
 			</div>
+            <div id="laps"></div>
 			<div id="tabs-3">Kart Racing Pro Telemetry analyser</div>
-
 		</div>
-	</div>
-	<div id="mapcontainer">
-		<div id="map"></div>
-	</div>
+           <div id="mapcontainer">
+                <div id="map"></div>
+	        </div>
+
+	    </div>
+ 
     </div>
 
 	<script type="text/javascript">
