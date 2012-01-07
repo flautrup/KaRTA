@@ -90,17 +90,21 @@ background-color: #D8D8D8;
 }
 
 #map {
-	width: 600px;
-	height: 600px;
+
+	width: 98%;
+	height: 98%;
     padding: 5px;
-    background-color: #B3E2FC;
     border-radius: 8px;
 }
 
 #mapcontainer {
-    float: right;
- //   background-color: #B3E2FC;
+    float: left;
+    width: 39%;
+    height: 650px;
+    padding: 5px;
+    background-color: #B3E2FC;
     border-radius: 8px;
+    border: 1px solid #000000;
 }
 #footer {
 	clear: both;
@@ -111,7 +115,7 @@ background-color: #D8D8D8;
 }
 body {
 	font: 62.5% "Trebuchet MS", sans-serif;
-	margin: 50px;
+	margin: 10px;
 }
 
 .demoHeaders {

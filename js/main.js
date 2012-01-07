@@ -1,3 +1,6 @@
+//Globals
+var Graphs;
+
 //Objects
 function information() {
 	this.format;
@@ -27,7 +30,7 @@ function UI(){
 	$("#sidebaraccordion").accordion({autoHeight: false, header: "h3" });
 
 	// Tabs
-	$('#tabs').tabs().resizable();
+	$('#tabs').tabs().resizable("aspectRatio");
     
 
 
@@ -55,7 +58,6 @@ function UI(){
 	$('#dialogAlert').dialog ('close');
 			
     $('#progressbar').progressbar();        
-	
 }
 
 function presentInformation(info) {
@@ -104,6 +106,10 @@ function map(container, teldatastr, laps) {
 	var options;
 	var chart;
 
+    var accwidth=($(document).width())*0.35;
+    
+    $("mapcontainer").width(accwidth);
+    
 	options = {
 			chart: {
 				renderTo: container, 
@@ -113,8 +119,8 @@ function map(container, teldatastr, laps) {
                 spacingBottom: 20,
                 spacingRight: 20,
                 spacingLeft: 20,
-                width: 600,
-	            height: 600
+                width: accwidth,
+	            height: accwidth
 			},
             title: {
               text: ''  
@@ -152,6 +158,7 @@ function map(container, teldatastr, laps) {
             },
 			tooltip: {
 				formatter: function() {
+                    manipulateID(this.point.id,"highlight");
 					return ''+
 					this.x +' , '+ this.y +' ';
 				}
@@ -181,15 +188,27 @@ function map(container, teldatastr, laps) {
 		series.name = 'Lap'+lapcount;
 		for(var count=laps[lapcount].start;count<laps[lapcount].stop; count++) {
 			if (gear==parseInt(teldata[count].Gear) || parseInt(teldata[count].Gear)==0) {
-				var point=[parseFloat(teldata[count].PosX),parseFloat(teldata[count].PosY)];
-				series.data.push(point);
-			} else {
-				var point={ 
+				    var point={
+                        id: count,
 						name: teldata[count].Gear,
 						marker: { 
 							enabled: true,
 							symbol: 'circle', 
-							radius: 3,
+							radius: 1,
+							fillColor: gearcolor[parseInt(teldata[count].Gear)] 
+						},
+						x: parseFloat(teldata[count].PosX),
+						y: parseFloat(teldata[count].PosY)
+				};
+				series.data.push(point);
+			} else {
+				var point={
+                        id: count,
+						name: teldata[count].Gear,
+						marker: { 
+							enabled: true,
+							symbol: 'circle', 
+							radius: 1,
 							fillColor: gearcolor[parseInt(teldata[count].Gear)] 
 						},
 						x: parseFloat(teldata[count].PosX),
@@ -206,12 +225,17 @@ function map(container, teldatastr, laps) {
 		};
 	}
 	chart=new Highcharts.Chart(options);
+    
+    return chart;
 }
 
 
-function analysisGraph(container,attr,teldatastr, laps) {
+function analysisGraph(container,attr,teldatastr,laps, tickmark) {
 	var options;
 	var chart;
+    
+    var accwidth=($(document).width())*0.54;
+    
 
 	options = {
 			chart: {
@@ -223,8 +247,8 @@ function analysisGraph(container,attr,teldatastr, laps) {
                 spacingBottom: 20,
                 spacingRight: 20,
                 spacingLeft: 20,
-                width: 865,
-                height: 280
+                width: accwidth,
+                height: 200
 			},
 			title: {
 				text: attr,
@@ -243,6 +267,7 @@ function analysisGraph(container,attr,teldatastr, laps) {
 				},
                 maxPadding: 0.0,
                 minPadding: 0.0,
+                tickInterval: tickmark,
 				plotLines: [{
 					value: 0,
 					width: 1,
@@ -261,8 +286,9 @@ function analysisGraph(container,attr,teldatastr, laps) {
 			},
 			tooltip: {
 				formatter: function() {
+                    manipulateID(this.point.id,"highlight");
 					return '<b>'+ this.series.name +'</b><br/>'+
-					this.x +': '+ this.y +'kmh';
+					this.x +': '+ this.y;
 				}
 			},
 			legend: {
@@ -287,10 +313,19 @@ function analysisGraph(container,attr,teldatastr, laps) {
 		series.name = 'Lap'+lapcount;
 		for(var count=laps[lapcount].start;count<laps[lapcount].stop; count++) {
 			if (gear==parseInt(teldata[count].Gear) || parseInt(teldata[count].Gear)==0) {
-				var point=[parseFloat(teldata[count].Distance),parseFloat(teldata[count][attr])];
+				var point={ 
+                        id: count,
+    					name: teldata[count].Gear,
+						marker: { 
+							enabled: false, 
+						},
+						x: parseFloat(teldata[count].Distance),
+						y: parseFloat(teldata[count][attr])
+				};
 				series.data.push(point);
 			} else {
-				var point={ 
+				var point={
+                        id: count,
 						name: teldata[count].Gear,
 						marker: { 
 							enabled: true,
@@ -314,6 +349,19 @@ function analysisGraph(container,attr,teldatastr, laps) {
 	chart=new Highcharts.Chart(options);
     
     return chart;
+}
+
+function manipulateID(id,effect) {
+    
+    for(var count=0; count < Graphs.length;count++) {
+        Graphs[count].get(id).update({marker: { 
+    						enabled: true,
+							symbol: 'circle', 
+							radius: 3,
+							fillColor: '#000000' 
+						}}, true, false);
+    }
+    
 }
 
 //File load
@@ -346,8 +394,9 @@ function updateProgress(evt) {
 		var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
 		// Increase the progress bar length.
 		if (percentLoaded < 100) {
-			progress.style.width = percentLoaded + '%';
-			progress.textContent = percentLoaded + '%';
+			$('#progressbar').progressbar({
+    		value: percentLoaded
+		    });
 		}
 	}
 }
@@ -356,10 +405,6 @@ function handleFileSelect(evt) {
 
 	var reader;
 	var progress = document.querySelector('.percent');
-
-	// Reset progress indicator on new file selection.
-	progress.style.width = '0%';
-	progress.textContent = '0%';
 
 	reader = new FileReader();
 	reader.onerror = errorHandler;
@@ -372,9 +417,10 @@ function handleFileSelect(evt) {
 	};
 	reader.onload = function(e) {
 		// Ensure that the progress bar displays 100% at the end.
-		progress.style.width = '100%';
-		progress.textContent = '100%';
-		setTimeout("document.getElementById('progress_bar').className='';", 2000);
+		$('#progressbar').progressbar({
+    		value: 100
+	    });
+
 		$('#dialogAlert').append('<h1>File Loaded</h1>');
 		$('#dialogAlert').dialog('open');
 	
@@ -387,13 +433,20 @@ function handleFileSelect(evt) {
 		presentInformation(info);
 		presentLaps(laps);
 		//speedGraph(data,laps);
-        var speedgraph=analysisGraph('speedgraph','Speed',data,laps);
-        var accelgraph=analysisGraph('accelgraph','LonAcc',data,laps);
-        var steergraph=analysisGraph('steergraph','Steer',data,laps);           
-        var throttlegraph=analysisGraph('throttlegraph','Throttle',data,laps);
-        var breakgraph=analysisGraph('brakegraph','Brake',data,laps);
+        var speedgraph=analysisGraph('speedgraph','Speed',data,laps,20);
+        var accelgraph=analysisGraph('accelgraph','LonAcc',data,laps,1);
+        var steergraph=analysisGraph('steergraph','Steer',data,laps,20);           
+        var throttlegraph=analysisGraph('throttlegraph','Throttle',data,laps,20);
+        var breakgraph=analysisGraph('brakegraph','Brake',data,laps,20);
 		
-		map('map',data,laps);
+		var mapgraph=map('map',data,laps);
+        
+        Graphs=[speedgraph, accelgraph, steergraph, throttlegraph, breakgraph, mapgraph];
+        
+        // on event triggered change graphs
+        
+       //     manipulateID(graphs,"highlight",id);
+        
 	};
 
 	// Read in the image file as a binary string.
