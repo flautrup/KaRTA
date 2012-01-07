@@ -109,6 +109,7 @@ function map(container, teldatastr, laps) {
     var accwidth=($(document).width())*0.35;
     
     $("mapcontainer").width(accwidth);
+    var teldata=JSON.parse(teldatastr);
     
 	options = {
 			chart: {
@@ -159,8 +160,7 @@ function map(container, teldatastr, laps) {
 			tooltip: {
 				formatter: function() {
                     manipulateID(this.point.id,"highlight");
-					return ''+
-					this.x +' , '+ this.y +' ';
+                    return Highcharts.numberFormat(teldata[this.point.id].Speed, 0, ',');
 				}
 			},
 			plotOptions: {
@@ -181,7 +181,7 @@ function map(container, teldatastr, laps) {
 
 	var gearcolor=['#000000','#0000FF','#000080','#00FF00','#FFFF00','#FF0000','#800080'];
 	
-	var teldata=JSON.parse(teldatastr);
+	
 	var gear=0;
 
 	for(var lapcount=0; lapcount<laps.length; lapcount++) {
@@ -280,15 +280,20 @@ function analysisGraph(container,attr,teldatastr,laps, tickmark) {
 					marker : {
 						enabled: true,
 						radius: 0,
-						symbol: 'circle'
+						symbol: 'circle',
+                        states: {
+                            select: {
+                                enabled: true,
+                                radius: 3
+                            }
+                        }
 					}
 				}
 			},
 			tooltip: {
 				formatter: function() {
                     manipulateID(this.point.id,"highlight");
-					return '<b>'+ this.series.name +'</b><br/>'+
-					this.x +': '+ this.y;
+					return Highcharts.numberFormat(this.y, 0, ',');
 				}
 			},
 			legend: {
@@ -354,12 +359,7 @@ function analysisGraph(container,attr,teldatastr,laps, tickmark) {
 function manipulateID(id,effect) {
     
     for(var count=0; count < Graphs.length;count++) {
-        Graphs[count].get(id).update({marker: { 
-    						enabled: true,
-							symbol: 'circle', 
-							radius: 3,
-							fillColor: '#000000' 
-						}}, true, false);
+        Graphs[count].get(id).select(true, false);
     }
     
 }
