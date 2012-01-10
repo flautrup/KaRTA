@@ -316,7 +316,7 @@ function analysisGraph(container,attr,teldatastr,laps, tickmark) {
 
 	for(var lapcount=0; lapcount<laps.length; lapcount++) {
 		series.name = 'Lap'+lapcount;
-		for(var count=laps[lapcount].start;count<laps[lapcount].stop; count++) {
+		for(var count=laps[lapcount].start;count<laps[lapcount].stop-1; count++) {
 			if (gear==parseInt(teldata[count].Gear) || parseInt(teldata[count].Gear)==0) {
 				var point={ 
                         id: count,
@@ -456,7 +456,7 @@ function handleFileSelect(evt) {
 // Data
 
 function parseInformation(content) {
-	var rows=content.replace(/\"/g,"").split("\n");
+	var rows=content.replace(/[\"\r]/g,"").split("\n");
 
 	var tmpinfo=new information();
 	
@@ -479,7 +479,7 @@ function parseInformation(content) {
 
 function parseUnits(content){
 	
-	var rows=content.replace(/\"/g,"").split("\n");
+	var rows=content.replace(/[\"\r]/g,"").split("\n");
 	var tmpunits=rows[14].split(",");	
 	
 	var units = new Array();
@@ -496,16 +496,12 @@ function parseLap(datastring) {
 
 	var dataobj=JSON.parse(datastring);
 	dataobj.sort(function (a,b) {return a.Time*1000 - b.Time*1000;});
-	var deltadistance=0;
 	var lapcount=0;
 	var laps=new Array();
-	var start=0;
+	var start=1;
 	
-	for(var count=0;count<dataobj.length; count++) {
-		if (parseFloat(dataobj[count].Distance)>=parseFloat(deltadistance)-1) {
-			deltadistance=dataobj[count].Distance;
-		} else {
-			deltadistance=dataobj[count].Distance;
+	for(var count=1;count<dataobj.length; count++) {
+		if (parseFloat(dataobj[count].Distance)+1<parseFloat(dataobj[count-1].Distance)) {
 			var lapdata=new Object;
 			lapdata.start=start;
 			lapdata.stop=count;
@@ -517,12 +513,15 @@ function parseLap(datastring) {
 		}
 	}
 	
-/* 	lapdata.start=start;
-	lapdata.stop=count;
-	lapdata.lap=lapcount;
-	lapdata.laptime=parseFloat(dataobj[count].Time)-parseFloat(dataobj[start].Time);
-	laps[lapcount]=lapdata; */ 
-	
+    if (dataobj.length > start) {
+        var lapdata=new Object;
+        lapdata.start=start;
+	    lapdata.stop=dataobj.length;
+	    lapdata.lap=lapcount;
+	    lapdata.laptime=parseFloat(dataobj[dataobj.length-1].Time)-parseFloat(dataobj[start].Time);
+	    laps[lapcount]=lapdata;
+    }
+            
 	return laps;
 	
 }
@@ -530,9 +529,9 @@ function parseLap(datastring) {
 function parseDataFile(content) {
 	
 	var data = new Array;
-	
-	var rows=content.replace(/\"/g,"").split("\r\n");	
-		
+	    
+	var rows=content.replace(/[\"\r]/g,"").split("\n");	
+        
 	var headings1=rows[13].split(",");
 
 	var headings = new Array();
@@ -542,7 +541,7 @@ function parseDataFile(content) {
 	};
 	
 
-for (var count=16;count < rows.length; count++) {
+    for (var count=16;count < rows.length; count++) {
 		var dataobj= new Object;
 		datarow=rows[count].split(",");
 		for (var count2=0; count2<headings.length; count2++) {
