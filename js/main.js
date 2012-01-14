@@ -57,7 +57,8 @@ function UI(){
 	
 	$('#dialogAlert').dialog ('close');
 			
-    $('#progressbar').progressbar();        
+    $('#progressbar').progressbar();  
+    $('#lapselector').hide();
 }
 
 function presentInformation(info) {
@@ -243,20 +244,18 @@ function analysisGraph(container,attr,teldatastr,laps, tickmark) {
 				zoomType: 'x',
 				defaultSeriesType: 'line',
                 reflow: true,
-                spacingTop: 20,
-                spacingBottom: 20,
-                spacingRight: 20,
-                spacingLeft: 20,
+                spacingTop: 10,
+                spacingBottom: 10,
+                spacingRight: 10,
+                spacingLeft: 10,
                 width: accwidth,
-                height: 200
+                height: 200,
+                plotBackgroundColor: '#000000',
+                backgroundColor: '#000000'
 			},
 			title: {
-				text: attr,
+				text: null,
 				x: -20 //center
-			},
-			subtitle: {
-				text: '',
-				x: -20
 			},
 			xAxis: {
 				type: 'linear'
@@ -276,7 +275,7 @@ function analysisGraph(container,attr,teldatastr,laps, tickmark) {
 			},
 			plotOptions: {
 				line: {
-					linewidth : 1,
+					linewidth : 0.5,
 					marker : {
 						enabled: true,
 						radius: 0,
@@ -297,10 +296,7 @@ function analysisGraph(container,attr,teldatastr,laps, tickmark) {
 				}
 			},
 			legend: {
-				layout: 'vertical',
-				align: 'right',
-				verticalAlign: 'top',
-				borderWidth: 0
+                enabled: false
 			},
 			series: []
 	};
@@ -423,7 +419,7 @@ function handleFileSelect(evt) {
 
 		$('#dialogAlert').append('<h1>File Loaded</h1>');
 		$('#dialogAlert').dialog('open');
-	
+
 		var filecontent=reader.result;
 		
 		var info=parseInformation(filecontent);
@@ -431,7 +427,10 @@ function handleFileSelect(evt) {
 		var laps=parseLap(data);
 		
 		presentInformation(info);
+        $('#progressbar').hide();
+        $('#lapselector').show();
 		presentLaps(laps);
+        
 		//speedGraph(data,laps);
         var speedgraph=analysisGraph('speedgraph','Speed',data,laps,20);
         var accelgraph=analysisGraph('accelgraph','LonAcc',data,laps,1);
