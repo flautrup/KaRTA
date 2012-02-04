@@ -90,15 +90,43 @@ function presentInformation(info) {
 function presentLaps(laps) {
 	
 	var infostr;
+    var lapselect;
 	
+    lapselect="<div id='lapset'>";
 	infostr="<table><tr><td></td><td>Laps</td><td>Time</td></tr>";
 	for(var count=0;count<laps.length; count++) {
 		infostr=infostr+"<tr><td><input type='checkbox' name='checklap' value="+laps[count].lap+"/></td><td>"+laps[count].lap+"</td><td>"+laps[count].laptime+"</td></tr>";
-	}
+        lapselect=lapselect+"<input type='checkbox' checked value='"+laps[count].lap+"' id='"+laps[count].lap+"'/><label for="+laps[count].lap+">"+laps[count].lap+"</label>";
+    }
+    
 	infostr=infostr+"</table>";
+    lapselect=lapselect+"</div>";
 	
 	$('#laps').append(infostr);
-	
+    $('#lapselector').append(lapselect);
+    
+    $('#lapset').buttonset();
+    $('#lapset input[type=checkbox]').change(function() {
+            var s = $("#lapset > input:checkbox:checked");
+            var un= $("#lapset > input:[type=checkbox][checked=false]");
+            var sids=Array();
+            var uids=Array();
+            for (count=0; count<s.length; count++){
+                sids.push(s[count].value);
+            }
+            for (count=0; count<un.length; count++){
+                uids.push(un[count].value);
+            }
+            //var us= $("#lapset > input:checkbox:unchecked");
+            changeSeriesState(sids,uids);  
+    });
+    
+    /*$("#lapset input[type=checkbox]").change( function() {
+            var s = $("#lapset > input:checkbox:checked");
+            var us= $("#lapset > input:checkbox:unchecked");
+            changeSeriesState(s,us);
+     });*/
+    
 }
 
 
@@ -122,7 +150,8 @@ function map(container, teldatastr, laps) {
                 spacingRight: 20,
                 spacingLeft: 20,
                 width: accwidth,
-	            height: accwidth
+	            height: accwidth,
+                ignoreHiddenSeries: false,
 			},
             title: {
               text: ''  
@@ -187,6 +216,7 @@ function map(container, teldatastr, laps) {
 
 	for(var lapcount=0; lapcount<laps.length; lapcount++) {
 		series.name = 'Lap'+lapcount;
+        series.id='Lap'+lapcount;
 		for(var count=laps[lapcount].start;count<laps[lapcount].stop; count++) {
 			if (gear==parseInt(teldata[count].Gear) || parseInt(teldata[count].Gear)==0) {
 				    var point={
@@ -251,7 +281,8 @@ function analysisGraph(container,attr,teldatastr,laps, tickmark) {
                 width: accwidth,
                 height: 200,
                 plotBackgroundColor: '#000000',
-                backgroundColor: '#000000'
+                backgroundColor: '#000000',
+                ignoreHiddenSeries: false
 			},
 			title: {
 				text: null,
@@ -312,6 +343,7 @@ function analysisGraph(container,attr,teldatastr,laps, tickmark) {
 
 	for(var lapcount=0; lapcount<laps.length; lapcount++) {
 		series.name = 'Lap'+lapcount;
+        series.id= 'Lap'+lapcount;
 		for(var count=laps[lapcount].start;count<laps[lapcount].stop-1; count++) {
 			if (gear==parseInt(teldata[count].Gear) || parseInt(teldata[count].Gear)==0) {
 				var point={ 
@@ -358,6 +390,21 @@ function manipulateID(id,effect) {
         Graphs[count].get(id).select(true, false);
     }
     
+}
+
+function changeSeriesState(sids,uids) {
+    for(var count=0; count < Graphs.length;count++) {
+        for(var count2=0;count2<sids.length;count2++) {
+            if(! Graphs[count].get('Lap'+sids[count2]).visible) {
+                Graphs[count].get('Lap'+sids[count2]).show();
+            }
+        }
+        for(var count2=0;count2<uids.length;count2++) {
+            if(Graphs[count].get('Lap'+uids[count2]).visible) {
+                Graphs[count].get('Lap'+uids[count2]).hide();
+            }
+        }
+    }
 }
 
 //File load
