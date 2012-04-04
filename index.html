@@ -43,45 +43,27 @@
 				<button onclick="abortRead();">Cancel read</button>
 			</div>
 			<div id="tabs-2">
-				<!-- Accordion -->
-				<div id="accordion">
-					<div>
-						<h3>
-							<a href="#">Speed</a>
-						</h3>
-						<div id="speedgraph"></div>
-					</div>
-					<div>
-						<h3>
-							<a href="#">Acceleration</a>
-						</h3>
-						<div id="accelgraph"></div>
-					</div>
-					<div>
-						<h3>
-							<a href="#">Steer</a>
-						</h3>
-						<div id="steergraph"></div>
-					</div>
-					<div>
-						<h3>
-    						<a href="#">Throttle</a>
-						</h3>
-						<div id="throttlegraph"></div>
-					</div>
-					<div>
-						<h3>
-							<a href="#">Break</a>
-						</h3>
-						<div id="brakegraph"></div>
-					</div>
-					<div>
-						<h3>
-							<a href="#">Compare</a>
-						</h3>
-						<div id="comparegraph"></div>
-					</div>
-				</div>
+				<!-- Main graph window -->
+				<ul id="mainwindow">
+					<li>
+                        <div id="speedgraph" class="ui-widget-content"></div>
+					</li>
+					<li>
+                        <div id="accelgraph" class="ui-widget-content"></div>
+    				</li>
+					<li>
+                        <div id="steergraph" class="ui-widget-content"></div>
+    				</li>
+					<li>
+                        <div id="throttlegraph" class="ui-widget-content"></div>
+    				</li>
+					<li>
+                        <div id="brakegraph" class="ui-widget-content"></div>
+    				</li>
+					<li>
+                        <div id="comparegraph" class="ui-widget-content"></div>
+    				</li>
+				</ul>
 			</div>
             <div id="laps"></div>
 			<div id="tabs-3"><h3>Kart Racing Pro Telemetry analyser</h3>

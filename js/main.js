@@ -22,12 +22,10 @@ function information() {
 //JQuery
 function UI(){
 
-	// Accordion
-	$("#accordion").accordion({autoHeight: false, header: "h3"});
-   
-   
   
-	$("#sidebaraccordion").accordion({autoHeight: false, header: "h3" });
+    $( "#mainwindow" ).sortable({placeholder: "ui-state-highlight", axis: 'y', distance: 100});
+    $( "#mainwindow" ).disableSelection();
+ 
 
 	// Tabs
 	$('#tabs').tabs().resizable("aspectRatio");
@@ -48,12 +46,6 @@ function UI(){
 		}
 	});
 
-
-	// Slider
-	$('#slider').slider({
-		range: true,
-		values: [17, 67]
-	});
 	
 	$('#dialogAlert').dialog ('close');
 			
@@ -289,7 +281,10 @@ function analysisGraph(container,attr,teldatastr,laps, tickmark) {
 				x: -20 //center
 			},
 			xAxis: {
-				type: 'linear'
+				type: 'linear',
+                labels: {
+                    enabled: false
+                },
 			},
 			yAxis: {
 				title: {
