@@ -5,8 +5,8 @@
 <title>KaRTA</title>
 <link type="text/css" href="css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
 <link type="text/css" href="css/main.css" rel="stylesheet" />
-<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
-<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.18.custom.min.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript" src="js/highcharts.js"></script>
 
@@ -46,22 +46,28 @@
 				<!-- Main graph window -->
 				<ul id="mainwindow">
 					<li>
-                        <div id="speedgraph" class="ui-widget-content"></div>
+                        <div id="speedheader" class="graphheader"><p style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);">Speed</p></div>
+                        <div id="speedgraph" class="graphholder"></div>
 					</li>
 					<li>
-                        <div id="accelgraph" class="ui-widget-content"></div>
+                        <div id="accelheader" class="graphheader"><p style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);">Acceleration</p></div>
+                        <div id="accelgraph" class="graphholder"></div>
     				</li>
 					<li>
-                        <div id="steergraph" class="ui-widget-content"></div>
+                        <div id="steerheader" class="graphheader"><p style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);">Steer</p></div>
+                        <div id="steergraph" class="graphholder"></div>
     				</li>
 					<li>
-                        <div id="throttlegraph" class="ui-widget-content"></div>
+                        <div id="throttleheader" class="graphheader"><p style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);">Throttle</p></div>
+                        <div id="throttlegraph" class="graphholder"></div>
     				</li>
 					<li>
-                        <div id="brakegraph" class="ui-widget-content"></div>
+                        <div id="breakheader" class="graphheader"><p style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);">Break</p></div>
+                        <div id="brakegraph" class="graphholder"></div>
     				</li>
 					<li>
-                        <div id="comparegraph" class="ui-widget-content"></div>
+                        <div id="compareheader" class="graphheader"><p style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);">Compare</p></div>
+                        <div id="comparegraph" class="graphholder"></div>
     				</li>
 				</ul>
 			</div>

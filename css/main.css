@@ -21,6 +21,8 @@ background-color: #D8D8D8;
 
 .ui-state-highlight { height: 200px; }
 
+#mainwindow {list-style-type: none;}
+
 #mainwindow li { padding: 2px; font-size: 1.2em; height: 200px; }
 
 #background {
@@ -36,9 +38,37 @@ background-color: #D8D8D8;
 
 #tabs {
     float: left;
-    width: 60%;
+    width: 68%;
 }
 
+.graphheader {
+    float: left;
+    width: 3%;
+    height: 200px;
+    overflow: hidden;
+    //padding: 5px;
+    background-color: #FF7101;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+    font-family: Helvetica,Verdana,Arial;
+    font-size: 1.2em;
+    border: 1px solid #000000;
+    //background: #000000 url(custom-theme/images/ui-bg_gloss-wave_65_ff7101_500x100.png) 50% 50% repeat-x;
+    color: #ffffff;
+}
+
+.graphholder {
+    float: left;
+    //width: 90%;
+    height: 200px;
+    overflow: hidden;
+    //padding: 5px;
+    background-color: #B3E2FC;
+    //border-bottom-right-radius: 8px;
+    //border-bottom-left-radius: 8px;
+    //margin-bottom: 10px;
+    //border: 1px solid #000000;
+}
 
 #information {
     float: right;
@@ -102,8 +132,8 @@ background-color: #D8D8D8;
 }
 
 #mapcontainer {
-    float: left;
-    width: 38%;
+    float: right;
+    width: 30%;
     height: 650px;
     padding: 5px;
     background-color: #B3E2FC;

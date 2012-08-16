@@ -23,12 +23,15 @@ function information() {
 function UI(){
 
   
-    $( "#mainwindow" ).sortable({placeholder: "ui-state-highlight", axis: 'y', distance: 100});
-    $( "#mainwindow" ).disableSelection();
+    $( "#mainwindow" ).sortable({placeholder: "ui-state-highlight", axis: 'y', distance: 100, handle: '.graphheader'});
+   // $( "#mainwindow" ).disableSelection();
  
 
 	// Tabs
-	$('#tabs').tabs().resizable("aspectRatio");
+	$('#tabs').tabs();
+    $('#tabs').resizable("aspectRatio");
+    
+    $('#mapcontainer').resizable("aspectRatio");
     
 
 
@@ -85,7 +88,7 @@ function presentLaps(laps) {
     var lapselect;
 	
     lapselect="<div id='lapset'>";
-	infostr="<table><tr><td></td><td>Laps</td><td>Time</td></tr>";
+	infostr="<table><tr><td></td><td>Lanps</td><td>Time</td></tr>";
 	for(var count=0;count<laps.length; count++) {
 		infostr=infostr+"<tr><td><input type='checkbox' name='checklap' value="+laps[count].lap+"/></td><td>"+laps[count].lap+"</td><td>"+laps[count].laptime+"</td></tr>";
         lapselect=lapselect+"<input type='checkbox' checked value='"+laps[count].lap+"' id='"+laps[count].lap+"'/><label for="+laps[count].lap+">"+laps[count].lap+"</label>";
@@ -100,7 +103,8 @@ function presentLaps(laps) {
     $('#lapset').buttonset();
     $('#lapset input[type=checkbox]').change(function() {
             var s = $("#lapset > input:checkbox:checked");
-            var un= $("#lapset > input:[type=checkbox][checked=false]");
+//            var un= $("#lapset > input:[type=checkbox][checked=false]");
+            var un=$("#lapset > input").not("#lapset > input:checkbox:checked");
             var sids=Array();
             var uids=Array();
             for (count=0; count<s.length; count++){
@@ -127,7 +131,7 @@ function map(container, teldatastr, laps) {
 	var options;
 	var chart;
 
-    var accwidth=($(document).width())*0.35;
+    var accwidth=($(document).width())*0.30;
     
     $("mapcontainer").width(accwidth);
     var teldata=JSON.parse(teldatastr);
