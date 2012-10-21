@@ -43,8 +43,8 @@ background-color: #D8D8D8;
 
 .graphheader {
     float: left;
-    width: 3%;
-    height: 200px;
+    width: 25px;
+    height: 25px;
     overflow: hidden;
     //padding: 5px;
     background-color: #FF7101;

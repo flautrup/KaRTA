@@ -29,11 +29,11 @@ function UI(){
 
 	// Tabs
 	$('#tabs').tabs();
-    $('#tabs').resizable("aspectRatio");
+    //Fx error on resizable before init
+    //$('#tabs').resizable("aspectRatio");
     
-    $('#mapcontainer').resizable("aspectRatio");
+    //$('#mapcontainer').resizable("aspectRatio");
     
-
 
 	// Dialog			
 	$('#dialogAlert').dialog({
@@ -52,8 +52,9 @@ function UI(){
 	
 	$('#dialogAlert').dialog ('close');
 			
-    $('#progressbar').progressbar();  
     $('#lapselector').hide();
+    
+    $('#telemetryfile').live('change', handleFileSelect);
 }
 
 function presentInformation(info) {
@@ -278,7 +279,8 @@ function analysisGraph(container,attr,teldatastr,laps, tickmark) {
                 height: 200,
                 plotBackgroundColor: '#000000',
                 backgroundColor: '#000000',
-                ignoreHiddenSeries: false
+                ignoreHiddenSeries: false,
+                borderRadius: 0
 			},
 			title: {
 				text: null,
@@ -305,7 +307,7 @@ function analysisGraph(container,attr,teldatastr,laps, tickmark) {
 			},
 			plotOptions: {
 				line: {
-					linewidth : 0.5,
+					linewidth : 1,
 					marker : {
 						enabled: true,
 						radius: 0,
@@ -430,41 +432,22 @@ function errorHandler(evt) {
 	};
 }
 
-function updateProgress(evt) {
-	// evt is an ProgressEvent.
-	if (evt.lengthComputable) {
-		var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
-		// Increase the progress bar length.
-		if (percentLoaded < 100) {
-			$('#progressbar').progressbar({
-    		value: percentLoaded
-		    });
-		}
-	}
-}
-
 function handleFileSelect(evt) {
 
 	var reader;
-	var progress = document.querySelector('.percent');
 
 	reader = new FileReader();
 	reader.onerror = errorHandler;
-	reader.onprogress = updateProgress;
 	reader.onabort = function(e) {
 		alert('File read cancelled');
 	};
 	reader.onloadstart = function(e) {
-		document.getElementById('progress_bar').className = 'loading';
+
 	};
 	reader.onload = function(e) {
-		// Ensure that the progress bar displays 100% at the end.
-		$('#progressbar').progressbar({
-    		value: 100
-	    });
-
+		
 		$('#dialogAlert').append('<h1>File Loaded</h1>');
-		$('#dialogAlert').dialog('open');
+		$('#dialogAlert').dialog("open");
 
 		var filecontent=reader.result;
 		
@@ -473,7 +456,6 @@ function handleFileSelect(evt) {
 		var laps=parseLap(data);
 		
 		presentInformation(info);
-        $('#progressbar').hide();
         $('#lapselector').show();
 		presentLaps(laps);
         
