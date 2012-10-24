@@ -106,8 +106,8 @@ function presentLaps(laps) {
             var s = $("#lapset > input:checkbox:checked");
 //            var un= $("#lapset > input:[type=checkbox][checked=false]");
             var un=$("#lapset > input").not("#lapset > input:checkbox:checked");
-            var sids=Array();
-            var uids=Array();
+            var sids=[];
+            var uids=[];
             for (count=0; count<s.length; count++){
                 sids.push(s[count].value);
             }
@@ -147,8 +147,8 @@ function map(container, teldatastr, laps) {
                 spacingRight: 20,
                 spacingLeft: 20,
                 width: accwidth,
-	            height: accwidth,
-                ignoreHiddenSeries: false,
+                height: accwidth,
+                ignoreHiddenSeries: false
 			},
             title: {
               text: ''  
@@ -196,7 +196,7 @@ function map(container, teldatastr, laps) {
 					marker: {
 						radius: 2,
 						symbol: 'circle'
-					},
+					}
 				}
 			},
 			series: []
@@ -215,8 +215,8 @@ function map(container, teldatastr, laps) {
 		series.name = 'Lap'+lapcount;
         series.id='Lap'+lapcount;
 		for(var count=laps[lapcount].start;count<laps[lapcount].stop; count++) {
-			if (gear==parseInt(teldata[count].Gear) || parseInt(teldata[count].Gear)==0) {
-				    var point={
+			if (gear==parseInt(teldata[count].Gear) || parseInt(teldata[count].Gear)===0) {
+                    var point={
                         id: count,
 						name: teldata[count].Gear,
 						marker: { 
@@ -230,7 +230,7 @@ function map(container, teldatastr, laps) {
 				};
 				series.data.push(point);
 			} else {
-				var point={
+                    var point={
                         id: count,
 						name: teldata[count].Gear,
 						marker: { 
@@ -290,7 +290,7 @@ function analysisGraph(container,attr,teldatastr,laps, tickmark) {
 				type: 'linear',
                 labels: {
                     enabled: false
-                },
+                }
 			},
 			yAxis: {
 				title: {
@@ -339,7 +339,7 @@ function analysisGraph(container,attr,teldatastr,laps, tickmark) {
 
 	var gearcolor=['#000000','#0000FF','#000080','#00FF00','#FFFF00','#FF0000','#800080'];
 	
-	teldata=JSON.parse(teldatastr);
+	var teldata=JSON.parse(teldatastr);
 	var gear=0;
 
 	for(var lapcount=0; lapcount<laps.length; lapcount++) {
@@ -349,9 +349,9 @@ function analysisGraph(container,attr,teldatastr,laps, tickmark) {
 			if (gear==parseInt(teldata[count].Gear) || parseInt(teldata[count].Gear)==0) {
 				var point={ 
                         id: count,
-    					name: teldata[count].Gear,
+                        name: teldata[count].Gear,
 						marker: { 
-							enabled: false, 
+							enabled: false
 						},
 						x: parseFloat(teldata[count].Distance),
 						y: parseFloat(teldata[count][attr])
@@ -509,11 +509,11 @@ function parseUnits(content){
 	var rows=content.replace(/[\"\r]/g,"").split("\n");
 	var tmpunits=rows[14].split(",");	
 	
-	var units = new Array();
+	var units = [];
 	
 	for (var count=0;count < tmpunits.length; count++) {
 		units.push(tmpunits[count]);
-	};
+	}
 	
 	return units;
 	
@@ -524,12 +524,12 @@ function parseLap(datastring) {
 	var dataobj=JSON.parse(datastring);
 	dataobj.sort(function (a,b) {return a.Time*1000 - b.Time*1000;});
 	var lapcount=0;
-	var laps=new Array();
+	var laps=[];
 	var start=1;
 	
 	for(var count=1;count<dataobj.length; count++) {
 		if (parseFloat(dataobj[count].Distance)+1<parseFloat(dataobj[count-1].Distance)) {
-			var lapdata=new Object;
+			var lapdata={};
 			lapdata.start=start;
 			lapdata.stop=count;
 			lapdata.lap=lapcount;
@@ -541,12 +541,12 @@ function parseLap(datastring) {
 	}
 	
     if (dataobj.length > start) {
-        var lapdata=new Object;
+        var lapdata={};
         lapdata.start=start;
-	    lapdata.stop=dataobj.length;
-	    lapdata.lap=lapcount;
-	    lapdata.laptime=parseFloat(dataobj[dataobj.length-1].Time)-parseFloat(dataobj[start].Time);
-	    laps[lapcount]=lapdata;
+        lapdata.stop=dataobj.length;
+        lapdata.lap=lapcount;
+        lapdata.laptime=parseFloat(dataobj[dataobj.length-1].Time)-parseFloat(dataobj[start].Time);
+        laps[lapcount]=lapdata;
     }
             
 	return laps;
@@ -555,22 +555,22 @@ function parseLap(datastring) {
 
 function parseDataFile(content) {
 	
-	var data = new Array;
-	    
+	var data = [];
+
 	var rows=content.replace(/[\"\r]/g,"").split("\n");	
         
 	var headings1=rows[13].split(",");
 
-	var headings = new Array();
+	var headings =[];
 		
 	for (var count=0;count < headings1.length; count++) {
 		headings.push(headings1[count]);
-	};
+	}
 	
 
     for (var count=16;count < rows.length; count++) {
-		var dataobj= new Object;
-		datarow=rows[count].split(",");
+		var dataobj={};
+		var datarow=rows[count].split(",");
 		for (var count2=0; count2<headings.length; count2++) {
 			dataobj[headings[count2]]=datarow[count2];
 		}
